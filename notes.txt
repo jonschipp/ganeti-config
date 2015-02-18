@@ -1,3 +1,14 @@
+##################
+# Verify Cluster #
+##################
+* Always verify new cluster
+gnt-cluster verify
+
+Common problems:
+* host file out of sync: gnt-cluster copyfile /etc/hosts
+* unallocated drbd minors: drbdsetup /dev/drbd0
+* orphaned volumes: lvremove xenvg
+
 ############################
 # Instance Install Options #
 ############################
@@ -6,9 +17,9 @@
 * instance-image: unpack filesystem dump or tarball that you prepared earlier
 * instance-debootstrap (Debian/Ubuntu only)
 
-########
-# Nots #
-########
+#########
+# Notes #
+#########
 
 ^] to exit console mode
 # Hooks
@@ -19,24 +30,24 @@ OS_SEARCH_PATH = ['/srv/ganeti/os','/usr/local/lib/ganeti/os','/usr/lib/ganeti/o
 rm -rf /usr/local/share/ganeti/
 
 root@kvm1:~# gnt-cluster copyfile /etc/default/ganeti-instance-debootstrap
-root@kvm1:~# gnt-cluster copyfile /etc/ganeti/instance-debootstrap/variants.list 
-root@kvm1:~# gnt-cluster copyfile /etc/ganeti/instance-debootstrap/variants/trusty.conf 
-root@kvm1:~# gnt-cluster copyfile /etc/ganeti/instance-debootstrap/variants/precise.conf 
-root@kvm1:~# gnt-cluster copyfile /etc/ganeti/instance-debootstrap/variants/default.conf 
-root@kvm1:~# gnt-cluster copyfile /etc/ganeti/instance-debootstrap/hooks/grub 
-root@kvm1:~# gnt-cluster copyfile /etc/ganeti/instance-debootstrap/hooks/interfaces 
+root@kvm1:~# gnt-cluster copyfile /etc/ganeti/instance-debootstrap/variants.list
+root@kvm1:~# gnt-cluster copyfile /etc/ganeti/instance-debootstrap/variants/trusty.conf
+root@kvm1:~# gnt-cluster copyfile /etc/ganeti/instance-debootstrap/variants/precise.conf
+root@kvm1:~# gnt-cluster copyfile /etc/ganeti/instance-debootstrap/variants/default.conf
+root@kvm1:~# gnt-cluster copyfile /etc/ganeti/instance-debootstrap/hooks/grub
+root@kvm1:~# gnt-cluster copyfile /etc/ganeti/instance-debootstrap/hooks/interfaces
 root@kvm1:~# gnt-os list
-Name                           
+Name
 debootstrap+debootstrap
 debootstrap+debootstrap+default
 debootstrap+precise
 debootstrap+trusty
 
 # err
-root@instance2:~# cat /boot/grub/device.map 
+root@instance2:~# cat /boot/grub/device.map
 (hd0) /tmp/tmp.Q8kqtHw8tj/dev/vda
 
-# not kernel installed 
+# not kernel installed
 ls -l /boot/
 total 4
 drwxr-xr-x 5 root 114 4096 Feb 13 00:32 grub
@@ -56,7 +67,7 @@ Disk identifier: 0x00000000
 # Fix
 apt-get install linux-image-generic
 
-root@instance2:~# cat /boot/grub/device.map 
+root@instance2:~# cat /boot/grub/device.map
 (hd0) /dev/vda
 
 root@instance2:~# update-grub
@@ -74,7 +85,7 @@ Waiting for job 987 for instance2 ...
 
 Ubuntu 14.04 LTS instance2 ttyS0
 
-instance2 login: 
+instance2 login:
 
 
 # Each node
@@ -95,10 +106,10 @@ gnt-cluster copyfile /etc/ganeti/snf-image/variants.list
 gnt-cluster copyfile /etc/ganeti/snf-image/variants/trusty.conf
 
 
-root@kvm1:~# cat /etc/ganeti/snf-image/variants.list 
+root@kvm1:~# cat /etc/ganeti/snf-image/variants.list
 default
 trusty
-root@kvm1:~# cat /etc/ganeti/snf-image/variants/trusty.conf 
+root@kvm1:~# cat /etc/ganeti/snf-image/variants/trusty.conf
 IMG_PASSWD=toor
 IMG_FORMAT=diskdump
 IMG_ID=ubuntu_server-14.04-x86_64.diskdump
